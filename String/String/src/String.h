@@ -11,9 +11,13 @@ public:
 	String(const char* str);
 	String(const String& str);
 	String& operator=(const String& str);
+	
+	char& operator[](int index);
+	friend String& operator+(String& str1, const String& str2);	//still needs definition 
 
 	friend std::ostream& operator<<(std::ostream& out, const String& str);
 	friend std::istream& operator>>(std::istream& in, String& str);
+	
 	~String();
 };
 

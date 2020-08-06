@@ -28,9 +28,12 @@ String& String::operator=(const String& str) {
 	return *this;
 }
 
-String::~String() {
-	if(m_str)
-		delete[] m_str;
+char& String::operator[](int index) {
+	return m_str[index];
+}
+
+String& operator+(String& str1, const String& str2) {
+	
 }
 
 std::ostream& operator<<(std::ostream& out, const String& str) {
@@ -48,3 +51,11 @@ std::istream& operator>>(std::istream& in, String& str) {
 	strcpy_s(str.m_str, length, tempStr);
 	return in;
 }
+
+String::~String() {
+	if (m_str) {
+		delete[] m_str;
+		cout << "Destructed!\n";
+	}
+}
+

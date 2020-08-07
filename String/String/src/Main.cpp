@@ -6,8 +6,8 @@ using namespace std;
 
 int main() {
 
-	cout << String("Saif ") + String("Elaswad") << endl;
-
+	String str1, str2;
+	str1.Clear();
 	
 	
 

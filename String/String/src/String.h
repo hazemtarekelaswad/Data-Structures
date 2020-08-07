@@ -13,7 +13,7 @@ public:
 	String& operator=(const String& str);
 	
 	char& operator[](int index);
-	friend String& operator+(String& str1, const String& str2);	//still needs definition 
+	friend String operator+(const String& str1, const String& str2);
 
 	friend std::ostream& operator<<(std::ostream& out, const String& str);
 	friend std::istream& operator>>(std::istream& in, String& str);

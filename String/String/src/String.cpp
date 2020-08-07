@@ -3,7 +3,10 @@
 #include <cstring>
 using namespace std;
 
-String::String() : m_str(nullptr) {}
+String::String() : m_str(nullptr) {
+	m_str = new char[1];
+	m_str[0] = '\0';
+}
 
 String::String(const char* str) {
 	int length = strlen(str) + 1;
@@ -32,8 +35,14 @@ char& String::operator[](int index) {
 	return m_str[index];
 }
 
-String& operator+(String& str1, const String& str2) {
-	
+String operator+(const String& str1, const String& str2) {
+	int length = strlen(str1.m_str) + strlen(str2.m_str) + 1;
+	char* tempStr = new char[length];
+	strcpy_s(tempStr, length, str1.m_str);
+	strcat_s(tempStr, length, str2.m_str);
+	String resStr(tempStr);
+	delete[] tempStr;
+	return resStr;
 }
 
 std::ostream& operator<<(std::ostream& out, const String& str) {

@@ -12,22 +12,50 @@ public:
 	Vector() : m_vector(nullptr), m_size(0){}
 
 	Vector(std::initializer_list<T> list) {
+		m_size = list.size();
+		m_vector = new T[m_size];
 
+		size_t i = 0;
+		for (const auto& element : list)
+			m_vector[i++] = element;
 	}
 
-	friend std::ostream& operator<<(std::ostream& out, const Vector& vec) {
-		for (size_t i = 0; i < vec.m_size; ++i)
-			out << vec.m_vector[i];
-		return out;
-	}
-
-	friend std::istream& operator>>(std::istream& in, Vector& vec) {
+	Vector(const Vector& vec) {
+		m_size = vec.m_size;
+		m_vector = new T[m_size];
 		for (size_t i = 0; i < m_size; ++i)
-			in >> vec.m_vector[i];
-		return in;
+			m_vector[i] = vec.m_vector[i];
+	}
+
+	Vector& operator=(const Vector& vec) {
+		m_size = vec.m_size;
+		m_vector = new T[m_size];
+		for (size_t i = 0; i < m_size; ++i)
+			m_vector[i] = vec.m_vector[i];
+		return *this;
+	}
+
+	Vector& operator[](size_t index) {
+		return m_vector[index];
+	}
+
+	size_t Size() const {
+		return m_size;
+	}
+
+	Vector& At(size_t index) const {
+		return m_vector[index];
+	}
+
+	T& Front() const {
+		return m_vector[0];
+	}
+
+	T& Back() const {
+		return m_vector[m_size - 1];
 	}
 	
-	void push_back(const T& value) {
+	void PushBack(const T& value) {
 		T* tempVec = m_vector;
 		m_vector = new T[m_size + 1];
 		for (size_t i = 0; i < m_size; ++i)
@@ -38,7 +66,7 @@ public:
 		++m_size;
 	}
 
-	void pop_back() {
+	void PopBack() {
 		T* tempVec = m_vector;
 		m_vector = new T[m_size - 1];
 		for (size_t i = 0; i < m_size - 1; ++i)
@@ -46,6 +74,12 @@ public:
 		delete[] tempVec;
 
 		--m_size;
+	}
+
+	friend std::ostream& operator<<(std::ostream& out, const Vector& vec) {
+		for (size_t i = 0; i < vec.m_size; ++i)
+			out << vec.m_vector[i] << ' ';
+		return out;
 	}
 
 	~Vector() {

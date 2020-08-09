@@ -76,6 +76,22 @@ public:
 		--m_size;
 	}
 
+	void Insert(const T& element, size_t index) {
+		T* tempVec = m_vector;
+		m_vector = new T[m_size + 1];
+
+		for (size_t i = 0; i < index; ++i)
+			m_vector[i] = tempVec[i];
+		m_vector[index] = element;
+
+		size_t count = index;
+		for (size_t i = index + 1; i <= m_size; ++i)
+			m_vector[i] = tempVec[count++];
+		delete[] tempVec;
+
+		++m_size;
+	}
+
 	friend std::ostream& operator<<(std::ostream& out, const Vector& vec) {
 		for (size_t i = 0; i < vec.m_size; ++i)
 			out << vec.m_vector[i] << ' ';

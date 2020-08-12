@@ -17,7 +17,7 @@ public:
 
 		size_t i = 0;
 		for (const auto& element : list)
-			m_vector[i++] = element;
+			m_vector[i++] = std::move(element);
 	}
 
 	Vector(const Vector& vec) {
@@ -27,11 +27,30 @@ public:
 			m_vector[i] = vec.m_vector[i];
 	}
 
+	Vector(Vector&& vec) {
+		m_vector = vec.m_vector;
+		m_size = vec.m_size;
+		vec.m_vector = nullptr;
+		vec.m_size = 0;
+	}
+
 	Vector& operator=(const Vector& vec) {
 		m_size = vec.m_size;
 		m_vector = new T[m_size];
 		for (size_t i = 0; i < m_size; ++i)
 			m_vector[i] = vec.m_vector[i];
+		return *this;
+	}
+
+	Vector& operator=(Vector&& vec) {
+
+		delete[] m_vector;
+
+		m_vector = vec.m_vector;
+		m_size = vec.m_size;
+		vec.m_vector = nullptr;
+		vec.m_size = 0;
+
 		return *this;
 	}
 
@@ -59,9 +78,20 @@ public:
 		T* tempVec = m_vector;
 		m_vector = new T[m_size + 1];
 		for (size_t i = 0; i < m_size; ++i)
-			m_vector[i] = tempVec[i];
+			m_vector[i] = std::move(tempVec[i]);
 		delete[] tempVec;
 		m_vector[m_size] = value;
+
+		++m_size;
+	}
+
+	void PushBack(T&& value) {
+		T* tempVec = m_vector;
+		m_vector = new T[m_size + 1];
+		for (size_t i = 0; i < m_size; ++i)
+			m_vector[i] = std::move(tempVec[i]);
+		delete[] tempVec;
+		m_vector[m_size] = std::move(value);
 
 		++m_size;
 	}
@@ -70,7 +100,7 @@ public:
 		T* tempVec = m_vector;
 		m_vector = new T[m_size - 1];
 		for (size_t i = 0; i < m_size - 1; ++i)
-			m_vector[i] = tempVec[i];
+			m_vector[i] = std::move(tempVec[i]);
 		delete[] tempVec;
 
 		--m_size;

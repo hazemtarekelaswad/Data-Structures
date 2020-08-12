@@ -74,7 +74,7 @@ std::istream& operator>>(std::istream& in, String& str) {
 }
 
 int String::Size() const{
-	return strlen(m_str) + 1;
+	return strlen(m_str);
 }
 
 void String::Upper() {
@@ -112,7 +112,7 @@ void String::Swap(String& str) {
 }
 
 bool String::Empty() const {
-	return this->Size() == 1;	// if it contains nothing but '\0'
+	return this->Size() == 1;	// if it contains nothing but '\0', returns true
 }
 
 void String::Clear() {
@@ -125,9 +125,7 @@ void String::Clear() {
 }
 
 String::~String() {
-	if (m_str) {
+	if (m_str)
 		delete[] m_str;
-		cout << "Destructed!\n";
-	}
 }
 

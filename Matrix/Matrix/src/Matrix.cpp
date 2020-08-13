@@ -16,6 +16,46 @@ Matrix::Matrix(int rows, int columns) {
 			m_matrix[i][j] = 0;
 }
 
+Matrix::Matrix(const Matrix& matrix) {
+	SetRows(matrix.m_rows);
+	SetColumns(matrix.m_columns);
+
+	m_matrix = new int*[matrix.m_rows];
+	for (int i = 0; i < matrix.m_rows; ++i)
+		m_matrix[i] = new int[matrix.m_columns];
+
+	for (int i = 0; i < matrix.m_rows; ++i)
+		for (int j = 0; j < matrix.m_columns; ++j)
+			m_matrix[i][j] = matrix.m_matrix[i][j];
+}
+
+Matrix::Matrix(Matrix&& matrix) {
+	SetRows(matrix.m_rows);
+	SetColumns(matrix.m_columns);
+	m_matrix = matrix.m_matrix;
+	matrix.m_matrix = nullptr;
+}
+
+Matrix& Matrix::operator=(const Matrix& matrix) {
+
+	if (matrix.m_rows != m_rows || matrix.m_columns != m_columns)
+		throw "To assign matrices, their sizes have to be equal";
+
+	for (int i = 0; i < matrix.m_rows; ++i)
+		for (int j = 0; j < matrix.m_columns; ++j)
+			m_matrix[i][j] = matrix.m_matrix[i][j];
+	return *this;
+}
+
+Matrix& Matrix::operator=(Matrix&& matrix) {
+	if (matrix.m_rows != m_rows || matrix.m_columns != m_columns)
+		throw "To assign matrices, their sizes have to be equal";
+
+	m_matrix = matrix.m_matrix;
+	matrix.m_matrix = nullptr;
+	return *this;
+}
+
 void Matrix::SetRows(int rows) {
 	if (rows <= 0)
 		throw "Any matrix has to have at least one row";
@@ -199,7 +239,9 @@ bool Matrix::IsZero() const {
 
 Matrix::~Matrix(){
 	//cout << "destruct\n";
-	for (int i = 0; i < m_rows; ++i)
-		delete[] m_matrix[i];
-	delete[] m_matrix;
+	if (m_matrix) {
+		for (int i = 0; i < m_rows; ++i)
+			delete[] m_matrix[i];
+		delete[] m_matrix;
+	}
 }

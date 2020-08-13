@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+
 class Matrix {
 private:
 	int m_rows;
@@ -13,6 +14,10 @@ private:
 public:
 
 	Matrix(int rows, int columns);
+	Matrix(const Matrix& matrix);
+	Matrix(Matrix&& matrix);
+	Matrix& operator=(const Matrix& matrix);
+	Matrix& operator=(Matrix&& matrix);
 
 	int GetRows() const;
 	int GetColumns() const;
@@ -31,7 +36,6 @@ public:
 
 	Matrix& Transpose() const;
 	long long Trace() const;
-	int Det() const;
 
 	bool IsSquare() const;
 	bool IsDiagonal() const;

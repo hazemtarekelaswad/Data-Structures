@@ -6,11 +6,20 @@ using namespace std;
 int main() {
 
 	try {
-		Matrix mat1(2, 2);
+		Matrix<int, 3, 3> mat1;
 		cin >> mat1;
-		Matrix mat2(move(mat1));
-	
-		cout << mat1 << endl << mat2 << endl;
+		cout << mat1;
+
+		Matrix<int, 3, 3> mat2;
+		cin >> mat2;
+		cout << mat2;
+
+		cout << mat1 + mat2 << endl;
+		cout << mat1 - mat2 << endl;
+		cout << mat1 * mat2 << endl;
+		cout << mat1.Trace() << endl << endl;
+		//cout << mat1.Transpose() << endl;
+
 		
 	}
 	catch (const char *msg) {

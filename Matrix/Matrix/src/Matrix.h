@@ -48,11 +48,11 @@ public:
 		return *this;
 	}
 
-	const int GetRows() const {
+	constexpr int GetRows() const {
 		return rows;
 	}
 
-	const int GetColumns() const {
+	constexpr int GetColumns() const {
 		return columns;
 	}
 
@@ -78,18 +78,16 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out, const Matrix& matrix) {
 		for (int i = 0; i < matrix.GetRows(); ++i) {
-			for (int j = 0; j < matrix.GetColumns; ++j)
+			for (int j = 0; j < matrix.GetColumns(); ++j)
 				out << matrix.m_matrix[i][j] << ' ';
 			out << std::endl;
 		}
 		return out;
 	}
 
-	friend Matrix operator+(const Matrix& mat1, const Matrix& mat2) {
-		if (mat1.GetRows() != mat2.GetRows() || mat1.GetColumns() != mat2.GetColumns())
-			throw "To add matrices, their sizes have to be equal";
+	friend Matrix<T, rows, columns> operator+(const Matrix<T, rows, columns>& mat1, const Matrix<T, rows, columns>& mat2) {
 
-		Matrix<T, mat1.GetRows(), mat1.GetColumns()> resMat;
+		Matrix<T, rows, columns> resMat;
 
 		for (int i = 0; i < mat1.GetRows(); ++i)
 			for (int j = 0; j < mat1.GetColumns(); ++j)
@@ -97,11 +95,9 @@ public:
 		return resMat;
 	}
 
-	friend Matrix operator-(const Matrix& mat1, const Matrix& mat2) {
-		if (mat1.GetRows() != mat2.GetRows() || mat1.GetColumns() != mat2.GetColumns())
-			throw "To subtract matrices, their sizes have to be equal";
+	friend Matrix<T, rows, columns> operator-(const Matrix<T, rows, columns>& mat1, const Matrix<T, rows, columns>& mat2) {
 
-		Matrix<T, mat1.GetRows(), mat1.GetColumns()> resMat;
+		Matrix<T, rows, columns> resMat;
 
 		for (int i = 0; i < mat1.GetRows(); ++i)
 			for (int j = 0; j < mat1.GetColumns(); ++j)
@@ -109,21 +105,11 @@ public:
 		return resMat;
 	}
 
-	friend Matrix operator*(const Matrix& mat1, const Matrix& mat2) {
-		if (mat1.GetColumns() != mat2.GetRows())
-			throw "To multiply matrices, the first matrix's number of columns has to be equal to the second matrix's number of rows";
+	template<typename t, int r, int c, int p>
+	friend Matrix<t, r, p> operator*(const Matrix<t, r, c>& mat1, const Matrix<t, c, p>& mat2);
 
-		Matrix<T, mat1.GetRows(), mat2.GetColumns()> resMat;
-
-		for (int i = 0; i < resMat.GetRows(); ++i)
-			for (int j = 0; j < resMat.GetColumns(); ++j)
-				for (int k = 0; k < mat1.GetColumns(); ++k)
-					resMat.m_matrix[i][j] += mat1.m_matrix[i][k] * mat2.m_matrix[k][j];
-		return resMat;
-	}
-
-	friend Matrix operator*(int constant, const Matrix& mat) {
-		Matrix<T, mat.GetRows(), mat.GetColumns()> resMat;
+	friend Matrix<T, rows, columns> operator*(int constant, const Matrix& mat) {
+		Matrix<T, rows, columns> resMat;
 
 		for (int i = 0; i < mat.GetRows(); ++i)
 			for (int j = 0; j < mat.GetColumns(); ++j)
@@ -132,7 +118,7 @@ public:
 	}
 
 	friend Matrix operator*(const Matrix& mat, int constant) {
-		Matrix<T, mat.GetRows(), mat.GetColumns()> resMat;
+		Matrix<T, rows, columns> resMat;
 
 		for (int i = 0; i < mat.GetRows(); ++i)
 			for (int j = 0; j < mat.GetColumns(); ++j)
@@ -153,12 +139,11 @@ public:
 		return true;
 	}
 
-	Matrix Transpose() {
-		Matrix<T, GetColumns(), GetRows()> transposedMat;
-
+	Matrix<T, columns, rows> Transpose() const{
+		Matrix<T, columns, rows> transposedMat;
 		for (int i = 0; i < transposedMat.GetRows(); ++i)
 			for (int j = 0; j < transposedMat.GetColumns(); ++j)
-				transposedMat.m_matrix[i][j] = m_matrix[j][i];
+				transposedMat(i, j) = m_matrix[j][i];
 		return transposedMat;
 	}
 
@@ -214,6 +199,25 @@ public:
 		return true;
 	}
 
+	void Fill(const T& element) {
+		for (int i = 0; i < rows; ++i)
+			for (int j = 0; j < columns; ++j)
+				m_matrix[i][j] = element;
+	}
+
 	~Matrix() {}
 };
+
+template<typename t, int r, int c, int p>
+Matrix<t, r, p> operator*(const Matrix<t, r, c>& mat1, const Matrix<t, c, p>& mat2) {
+
+	Matrix<t, r, p> resMat;
+	resMat.Fill(0);
+
+	for (int i = 0; i < resMat.GetRows(); ++i)
+		for (int j = 0; j < resMat.GetColumns(); ++j)
+			for (int k = 0; k < mat1.GetColumns(); ++k)
+				resMat(i, j) += mat1.m_matrix[i][k] * mat2.m_matrix[k][j];
+	return resMat;
+}
 

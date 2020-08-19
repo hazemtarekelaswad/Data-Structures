@@ -85,9 +85,9 @@ public:
 		return out;
 	}
 
-	friend Matrix<T, rows, columns> operator+(const Matrix<T, rows, columns>& mat1, const Matrix<T, rows, columns>& mat2) {
+	friend Matrix operator+(const Matrix& mat1, const Matrix& mat2) {
 
-		Matrix<T, rows, columns> resMat;
+		Matrix resMat;
 
 		for (int i = 0; i < mat1.GetRows(); ++i)
 			for (int j = 0; j < mat1.GetColumns(); ++j)
@@ -95,9 +95,9 @@ public:
 		return resMat;
 	}
 
-	friend Matrix<T, rows, columns> operator-(const Matrix<T, rows, columns>& mat1, const Matrix<T, rows, columns>& mat2) {
+	friend Matrix operator-(const Matrix& mat1, const Matrix& mat2) {
 
-		Matrix<T, rows, columns> resMat;
+		Matrix resMat;
 
 		for (int i = 0; i < mat1.GetRows(); ++i)
 			for (int j = 0; j < mat1.GetColumns(); ++j)
@@ -105,11 +105,11 @@ public:
 		return resMat;
 	}
 
-	template<typename t, int r, int c, int p>
-	friend Matrix<t, r, p> operator*(const Matrix<t, r, c>& mat1, const Matrix<t, c, p>& mat2);
+	template<typename T, int rows, int columns, int p>
+	friend Matrix<T, rows, p> operator*(const Matrix<T, rows, columns>& mat1, const Matrix<T, columns, p>& mat2);
 
-	friend Matrix<T, rows, columns> operator*(int constant, const Matrix& mat) {
-		Matrix<T, rows, columns> resMat;
+	friend Matrix operator*(int constant, const Matrix& mat) {
+		Matrix resMat;
 
 		for (int i = 0; i < mat.GetRows(); ++i)
 			for (int j = 0; j < mat.GetColumns(); ++j)
@@ -118,7 +118,7 @@ public:
 	}
 
 	friend Matrix operator*(const Matrix& mat, int constant) {
-		Matrix<T, rows, columns> resMat;
+		Matrix resMat;
 
 		for (int i = 0; i < mat.GetRows(); ++i)
 			for (int j = 0; j < mat.GetColumns(); ++j)
@@ -149,7 +149,7 @@ public:
 
 	long long Trace() const {
 		if (!IsSquare())
-			throw "A matrix has to be square matrix to compute its trace";
+			throw "A matrix has to be square to compute its trace";
 
 		long long sum = 0;
 		for (int i = 0; i < GetRows(); ++i)
@@ -208,10 +208,10 @@ public:
 	~Matrix() {}
 };
 
-template<typename t, int r, int c, int p>
-Matrix<t, r, p> operator*(const Matrix<t, r, c>& mat1, const Matrix<t, c, p>& mat2) {
+template<typename T, int rows, int columns, int p>
+Matrix<T, rows, p> operator*(const Matrix<T, rows, columns>& mat1, const Matrix<T, columns, p>& mat2) {
 
-	Matrix<t, r, p> resMat;
+	Matrix<T, rows, p> resMat;
 	resMat.Fill(0);
 
 	for (int i = 0; i < resMat.GetRows(); ++i)

@@ -6,10 +6,10 @@ using namespace std;
 int main() {
 
 	try {
-		Matrix<int, 3, 4> mat1;
+		Matrix<int, 2, 2> mat1;
 		cin >> mat1;
 
-		Matrix<int, 4, 4> mat2;
+		Matrix<int, 2, 3> mat2;
 		cin >> mat2;
 
 

@@ -1,2 +1,6 @@
 ﻿  Main.cpp
-  Matrix.vcxproj -> C:\Users\Hazem\source\DS_PS\DS\Matrix\Debug\Matrix.exe
+c:\users\hazem\source\ds_ps\ds\matrix\matrix\src\matrix.h(112): error C2065: 'p': undeclared identifier
+  c:\users\hazem\source\ds_ps\ds\matrix\matrix\src\matrix.h(212): note: see reference to class template instantiation 'Matrix<T,rows,columns>' being compiled
+c:\users\hazem\source\ds_ps\ds\matrix\matrix\src\matrix.h(112): error C2975: 'columns': invalid template argument for 'Matrix', expected compile-time constant expression
+  c:\users\hazem\source\ds_ps\ds\matrix\matrix\src\matrix.h(9): note: see declaration of 'columns'
+c:\users\hazem\source\ds_ps\ds\matrix\matrix\src\matrix.h(112): error C2065: 'p': undeclared identifier

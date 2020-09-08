@@ -385,3 +385,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Mine
+*.vcxproj.filters
+*.vcxproj
+*.sln

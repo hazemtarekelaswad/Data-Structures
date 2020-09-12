@@ -22,7 +22,8 @@ public:
 	}
 
 	SinglyList(SinglyList&& sList) {
-		
+		m_head = sList.m_head;
+		sList.m_head = nullptr;
 	}
 
 	SinglyList& operator=(const SinglyList& sList) {
@@ -30,7 +31,11 @@ public:
 	}
 
 	SinglyList& operator=(SinglyList&& sList) {
-
+		if(m_head)
+			this->~SinglyList();
+		m_head = sList.m_head;
+		sList.m_head = nullptr;
+		return *this;
 	}
 
 	size_t GetLength() const { 
@@ -70,27 +75,63 @@ public:
 		++length;
 	}
 
-	void PopBack() {
+	// Returns a boolean value depending on the success of poping operation, if the list is empty it would return false, yet true otherwise.
 
+	bool PopBack() {
+		Node<T>* trav = m_head;
+
+		if (!m_head)
+			return false;
+
+		if (!m_head->GetNextNode()) {
+			delete m_head;
+			m_head = nullptr;
+			--length;
+			return true;
+		}
+
+		while (trav->GetNextNode()->GetNextNode())
+			trav = trav->GetNextNode();
+		delete trav->GetNextNode();
+		trav->SetNextNode(nullptr);
+		--length;
+		return true;
 	}
 
-	void PopFront() {
+	// Returns a boolean value depending on the success of poping operation, if the list is empty it would return false, yet true otherwise.
 
+	bool PopFront() {
+		if (!m_head)
+			return false;
+		Node<T>* trav = m_head;
+		m_head = m_head->GetNextNode();
+		delete trav;
+		--length;
+		return true;
 	}
 
 	bool IsEmpty() const {
-
-	}
-
-	void Clear() {
-
+		return m_head == nullptr;
 	}
 
 	void Swap(const SinglyList& sList) {
-
+		Node<T>* tempHead = m_head;
+		m_head = sList.m_head;
+		sList.m_head = tempHead;
 	}
 
 	~SinglyList() {
-
+		if (!m_head)
+			return;
+		if (!m_head->GetNextNode()) {
+			delete m_head;
+			return;
+		}
+		Node<T>* trav = m_head;
+		while (trav) {
+			Node<T>* tempHead = trav;
+			trav = trav->GetNextNode();
+			delete tempHead;
+		}
 	}
 };

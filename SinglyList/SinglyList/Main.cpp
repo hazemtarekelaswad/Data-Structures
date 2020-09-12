@@ -5,17 +5,17 @@ using namespace std;
 
 int main() {
 	
-	SinglyList<int> list1 = {10, 55, 98, 123, 1, 47}, list2;
-	list1.PushBack(8);
-	list1.PushFront(7);
-	cout << list1 << endl << list1.GetLength();
-	/*list2 = list1;
-	cout << list1 << endl;
-	cout << list2 << endl;
-	list2.PopBack();
-	cout << list2 << endl;
-	SinglyList<int> list3(list2);
-	cout << list3 << endl;*/
-
+	SinglyList<int>* list = new SinglyList<int>;
+	SinglyList<int>* list2 = new SinglyList<int>;
+	list->PushBack(20);
+	list->PushFront(42);
+	list->PushBack(98);
+	list2->PushBack(97);
+	list2->PushBack(91);
+	*list2 = move(*list);
+	cout << *list << endl;
+	cout << *list2 << endl;
+	delete list;
+	delete list2;
 	return 0;
 }

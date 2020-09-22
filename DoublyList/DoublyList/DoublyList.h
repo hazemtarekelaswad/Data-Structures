@@ -35,6 +35,38 @@ public:
 
 	}
 
+	size_t GetLength() const {
+		return length;
+	}
+
+	void PushBack(const T& value) {
+
+	}
+
+	void PushFront(const T& value) {
+
+	}
+
+	void PopBack() {
+
+	}
+
+	void PopFront() {
+
+	}
+
+	T operator[](int index) {
+
+	}
+
+	bool IsEmpty() const {
+
+	}
+
+	void Swap(DoublyList& list) {
+
+	}
+
 	~DoublyList() {
 
 	}

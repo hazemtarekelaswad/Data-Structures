@@ -13,25 +13,35 @@ private:
 public:
 	DoublyList() : m_head(nullptr), m_tail(nullptr), length(0) {}
 
-	DoublyList(const T& value) {
+	DoublyList(const T& value) : m_head(nullptr), m_tail(nullptr), length(0) {
 		PushBack(value);
 	}
 
-	DoublyList(const std::initializer_list<T>& list) {
+	DoublyList(const std::initializer_list<T>& list) : m_head(nullptr), m_tail(nullptr), length(0) {
 		for (auto value : list)
 			PushBack(value);
 	}
 	
-	DoublyList(const DoublyList& list) {
-
+	DoublyList(const DoublyList& list) : m_head(nullptr), m_tail(nullptr), length(0) {
+		DoublyNode<T>* trav = list.m_head;
+		while (trav) {
+			PushBack(trav->GetValue());
+			trav = trav->GetNextNode();
+		}
 	}
 	
 	DoublyList(DoublyList&& list) {
+		m_head = list.m_head;
+		m_tail = list.m_tail;
+		length = list.length;
 
+		list.m_head = list.m_tail = nullptr;
+		list.length = 0;
 	}
 
-	DoublyList& operator=(DoublyList& list) {
-
+	DoublyList& operator=(DoublyList list) {
+		list.Swap(*this);
+		return *this;
 	}
 
 	size_t GetLength() const {
@@ -105,11 +115,21 @@ public:
 	}
 
 	bool IsEmpty() const {
-
+		return m_head == nullptr;
 	}
 
 	void Swap(DoublyList& list) {
+		DoublyNode<T>* temp = list.m_head;
+		list.m_head = m_head;
+		m_head = temp;
 
+		temp = list.m_tail;
+		list.m_tail = m_tail;
+		m_tail = temp;
+
+		size_t tempLength = list.length;
+		list.length = length;
+		length = tempLength;
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const DoublyList& list) {
@@ -130,7 +150,17 @@ public:
 	}
 
 	~DoublyList() {
+		if (!m_head)
+			return;
 
+		DoublyNode<T>* trav = m_head;
+		while (trav->GetNextNode()) {
+			trav = trav->GetNextNode();
+			delete trav->GetPrevNode();
+		}
+		delete trav;
+		m_head = m_tail = nullptr;
+		length = 0;
 	}
 
 };

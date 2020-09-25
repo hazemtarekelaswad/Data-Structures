@@ -110,7 +110,21 @@ public:
 		--length;
 	}
 
-	T operator[](int index) {
+	T operator[](size_t index) {
+		DoublyNode<T>* trav = m_head;
+		while (index--) {
+			trav = trav->GetNextNode();
+			if (!trav)
+				throw "Index is not valid\n";
+		}
+		return trav->GetValue();
+	}
+
+	void InsertAt(size_t index) {
+
+	}
+
+	void DeleteAt(size_t index) {
 
 	}
 

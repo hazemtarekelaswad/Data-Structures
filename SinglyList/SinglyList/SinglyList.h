@@ -12,7 +12,7 @@ private:
 public:
 	SinglyList() : m_head(nullptr), length(0) {}
 
-	SinglyList(std::initializer_list<T> initList) {
+	SinglyList(const std::initializer_list<T>& initList) : m_head(nullptr), length(0) {
 		/*typename std::initializer_list<T>::iterator element;
 		for (element = initList.begin(); element != initList.end(); ++element)
 			PushBack(*element);*/
@@ -21,7 +21,7 @@ public:
 			PushBack(element);
 	}
 
-	SinglyList(const SinglyList& sList) {
+	SinglyList(const SinglyList& sList) : m_head(nullptr), length(0) {
 		Node<T>* trav = sList.m_head;
 		while (trav) {
 			this->PushBack(trav->GetValue());
@@ -29,33 +29,15 @@ public:
 		}
 	}
 
-	SinglyList(SinglyList&& sList) {
+	SinglyList(SinglyList&& sList) : m_head(nullptr), length(0) {
 		m_head = sList.m_head;
 		length = sList.length;
 		sList.m_head = nullptr;
 		sList.length = 0;
 	}
 
-	SinglyList& operator=(const SinglyList& sList) {
-		if (m_head) {
-			~SinglyList();
-			length = 0;
-		}
-		Node<T>* trav = sList.m_head;
-		while (trav) {
-			this->PushBack(trav->GetValue());
-			trav = trav->GetNextNode();
-		}
-		return *this;
-	}
-
-	SinglyList& operator=(SinglyList&& sList) {
-		if(m_head)
-			~SinglyList();
-		m_head = sList.m_head;
-		length = sList.length;
-		sList.m_head = nullptr;
-		sList.length = 0;
+	SinglyList& operator=(SinglyList sList) {
+		sList.Swap(*this);
 		return *this;
 	}
 
@@ -149,10 +131,11 @@ public:
 
 	void Swap(SinglyList& sList) {
 		Node<T>* tempHead = m_head;
-		size_t tempLength = length;
 		m_head = sList.m_head;
-		length = sList.length;
 		sList.m_head = tempHead;
+
+		size_t tempLength = length;
+		length = sList.length;
 		sList.length = tempLength;
 	}
 

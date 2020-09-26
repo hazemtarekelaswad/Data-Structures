@@ -127,13 +127,16 @@ public:
 		DoublyNode<T>* newNode = new DoublyNode<T>(value);
 		DoublyNode<T>* trav = m_head;
 		if (!m_head || !index) {
+			delete newNode;
 			PushFront(value);
 			return;
 		}
 		while (--index) {
 			trav = trav->GetNextNode();
-			if (!trav)
+			if (!trav) {
+				delete newNode;
 				throw "Index is invalid\n";
+			}
 		}
 		newNode->SetPrevNode(trav);
 		newNode->SetNextNode(trav->GetNextNode());
@@ -141,7 +144,6 @@ public:
 		if(newNode->GetNextNode())
 			newNode->GetNextNode()->SetPrevNode(newNode);
 		++length;
-
 	}
 
 	void Delete(size_t index) {

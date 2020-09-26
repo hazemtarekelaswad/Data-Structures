@@ -113,8 +113,29 @@ public:
 		return true;
 	}
 
-	bool IsEmpty() const {
-		return m_head == nullptr;
+	void Insert(const T& value, size_t index) {
+		Node<T>* newNode = new Node<T>(value);
+		Node<T>* trav = m_head;
+
+		if (!index || !m_head) {
+			delete newNode;
+			PushFront(value);
+			return;
+		}
+		while (--index) {
+			trav = trav->GetNextNode();
+			if (!trav) {
+				delete newNode;
+				throw "Invalid index passed\n";
+			}
+		}
+		newNode->SetNextNode(trav->GetNextNode());
+		trav->SetNextNode(newNode);
+		++length;
+	}
+
+	void Delete(size_t index){
+	
 	}
 
 	T operator[](size_t index) {
@@ -127,6 +148,10 @@ public:
 				throw "invalide index passed\n";
 		}
 		return trav->GetValue();
+	}
+
+	bool IsEmpty() const {
+		return m_head == nullptr;
 	}
 
 	void Swap(SinglyList& sList) {

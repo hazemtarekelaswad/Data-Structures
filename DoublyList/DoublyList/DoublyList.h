@@ -110,22 +110,66 @@ public:
 		--length;
 	}
 
+	/* One useful method using size_t instead of int is the ability to 
+	 throw even if the user of this function passes a negative number */
+
 	T operator[](size_t index) {
 		DoublyNode<T>* trav = m_head;
 		while (index--) {
 			trav = trav->GetNextNode();
 			if (!trav)
-				throw "Index is not valid\n";
+				throw "Index is invalid\n";
 		}
 		return trav->GetValue();
 	}
 
-	void InsertAt(size_t index) {
+	void Insert(const T& value, size_t index) {
+		DoublyNode<T>* newNode = new DoublyNode<T>(value);
+		DoublyNode<T>* trav = m_head;
+		if (!m_head || !index) {
+			PushFront(value);
+			return;
+		}
+		while (--index) {
+			trav = trav->GetNextNode();
+			if (!trav)
+				throw "Index is invalid\n";
+		}
+		newNode->SetPrevNode(trav);
+		newNode->SetNextNode(trav->GetNextNode());
+		trav->SetNextNode(newNode);
+		if(newNode->GetNextNode())
+			newNode->GetNextNode()->SetPrevNode(newNode);
+		++length;
 
 	}
 
-	void DeleteAt(size_t index) {
+	void Delete(size_t index) {
+		DoublyNode<T>* trav = m_head;
 
+		if (!index) {
+			PopFront();
+			return;
+		}
+
+		while (--index) {
+			trav = trav->GetNextNode();
+			if (!trav)
+				throw "Index is invalid\n";
+		}
+
+		if (!trav->GetNextNode())
+			throw "Index is invalid\n";
+
+		if (!trav->GetNextNode()->GetNextNode()) {
+			PopBack();
+			return;
+		}
+
+		trav->SetNextNode(trav->GetNextNode()->GetNextNode());
+		delete trav->GetNextNode()->GetPrevNode();
+		trav->GetNextNode()->SetPrevNode(trav);
+		--length;
 	}
 
 	bool IsEmpty() const {

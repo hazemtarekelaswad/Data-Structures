@@ -135,7 +135,23 @@ public:
 	}
 
 	void Delete(size_t index){
-	
+		Node<T>* travPrev = m_head;
+		if (!index) {
+			PopFront();
+			return;
+		}
+		while (--index) {
+			travPrev = travPrev->GetNextNode();
+			if (!travPrev)
+				throw "Invalid index passed\n";
+		}
+		if(!travPrev->GetNextNode())
+			throw "Invalid index passed\n";
+
+		Node<T>* nodeToDelete = travPrev->GetNextNode();
+		travPrev->SetNextNode(nodeToDelete->GetNextNode());
+		delete nodeToDelete;
+		--length;
 	}
 
 	T operator[](size_t index) {

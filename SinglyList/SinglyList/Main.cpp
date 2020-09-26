@@ -6,9 +6,9 @@ using SL = SinglyList<int>;
 
 int main() {
 	
-	SL list = {  };
+	SL list = { 1, 2 };
 	try {
-		list.Insert(23, 4);
+		list.Delete(1);
 		cout << list << endl;
 	}
 	catch (...) {

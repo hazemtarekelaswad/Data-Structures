@@ -8,8 +8,12 @@ private:
 	T2 m_second;
 
 public:
+	Pair() {}
+
 	Pair(const T1& firstElement, const T2& secElement)
 		: m_first(firstElement), m_second(secElement) {}
+
+	Pair(const Pair& pair) = default;
 
 	void SetFirst(const T1& first) { m_first = first; }
 

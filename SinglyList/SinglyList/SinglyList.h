@@ -170,6 +170,24 @@ public:
 		return m_head == nullptr;
 	}
 
+	void Reverse() {
+		if (!m_head->GetNextNode())
+			return;
+
+		Node<T>* prevTrav = nullptr;
+		Node<T>* currTrav = m_head;
+		Node<T>* nextTrav = m_head;
+
+		while (nextTrav) {
+			nextTrav = nextTrav->GetNextNode();
+			currTrav->SetNextNode(prevTrav);
+			
+			prevTrav = currTrav;
+			currTrav = nextTrav;
+		}
+		m_head = prevTrav;
+	}
+
 	void Swap(SinglyList& sList) {
 		Node<T>* tempHead = m_head;
 		m_head = sList.m_head;

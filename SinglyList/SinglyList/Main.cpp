@@ -6,9 +6,10 @@ using SL = SinglyList<int>;
 
 int main() {
 	
-	SL list = { 1, 2 };
+	SL list = { 1, 2, 8, 4, 7, 13 };
 	try {
-		list.Delete(1);
+		cout << list << endl;
+		list.Reverse();
 		cout << list << endl;
 	}
 	catch (...) {

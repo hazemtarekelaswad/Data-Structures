@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <initializer_list>
-#include "SinglyList.h"
+#include "../SinglyList/SinglyList.hpp"
 
 template<typename T>
 class Stack {

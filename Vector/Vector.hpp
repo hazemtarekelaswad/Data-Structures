@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <initializer_list>
 
@@ -58,23 +59,23 @@ public:
 		return m_vector[index];
 	}
 
-	size_t Size() const {
+	size_t size() const {
 		return m_size;
 	}
 
-	Vector& At(size_t index) const {
+	Vector& at(size_t index) const {
 		return m_vector[index];
 	}
 
-	T& Front() const {
+	T& front() const {
 		return m_vector[0];
 	}
 
-	T& Back() const {
+	T& back() const {
 		return m_vector[m_size - 1];
 	}
 	
-	void PushBack(const T& value) {
+	void push_back(const T& value) {
 		T* tempVec = m_vector;
 		m_vector = new T[m_size + 1];
 		for (size_t i = 0; i < m_size; ++i)
@@ -85,7 +86,7 @@ public:
 		++m_size;
 	}
 
-	void PushBack(T&& value) {
+	void push_back(T&& value) {
 		T* tempVec = m_vector;
 		m_vector = new T[m_size + 1];
 		for (size_t i = 0; i < m_size; ++i)
@@ -96,7 +97,7 @@ public:
 		++m_size;
 	}
 
-	void PopBack() {
+	void pop_back() {
 		T* tempVec = m_vector;
 		m_vector = new T[m_size - 1];
 		for (size_t i = 0; i < m_size - 1; ++i)
@@ -106,7 +107,7 @@ public:
 		--m_size;
 	}
 
-	void Insert(const T& element, size_t index) {
+	void insert(const T& element, size_t index) {
 		T* tempVec = m_vector;
 		m_vector = new T[m_size + 1];
 
@@ -129,8 +130,7 @@ public:
 	}
 
 	~Vector() {
-		if(m_vector)
-			delete[] m_vector;
+		if(m_vector) delete[] m_vector;
 	}
 
 };

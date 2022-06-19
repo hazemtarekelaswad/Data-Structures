@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <initializer_list>
-#include "DoublyList.h"
+#include "../DoublyList/DoublyList.hpp"
 
 template<typename T>
 class Queue {
@@ -26,8 +26,8 @@ public:
 		return *this;
 	}
 
-	void Swap(Queue& queue) {
-		m_list.Swap(queue.m_list);
+	void swap(Queue& queue) {
+		m_list.swap(queue.m_list);
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Queue& queue) {
@@ -35,27 +35,27 @@ public:
 		return out;
 	}
 
-	void Push(const T& value) {
-		m_list.PushBack(value);
+	void push(const T& value) {
+		m_list.push_back(value);
 	}
 
-	void Pop() {
-		m_list.PopFront();
+	void pop() {
+		m_list.pop_front();
 	}
 
-	T Front() {
+	T front() {
 		return m_list[0];
 	}
 	
-	T Back() {
-		return m_list[m_list.GetLength() - 1];
+	T back() {
+		return m_list[m_list.get_length() - 1];
 	}
 
-	size_t Size() const {
-		return m_list.GetLength();
+	size_t size() const {
+		return m_list.get_length();
 	}
 
-	bool IsEmpty() const {
-		return m_list.IsEmpty();
+	bool is_empty() const {
+		return m_list.is_empty();
 	}
 };

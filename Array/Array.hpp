@@ -4,7 +4,6 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
-using namespace std;
 
 template<typename T, long long n>
 class Array {
@@ -17,26 +16,26 @@ public:
 			m_array[i] = 0;
 	}
 
-	Array(initializer_list<T> li) {		// size equality assertion needed
+	Array(std::initializer_list<T> li) {		// size equality assertion needed
 		long long count = 0;
 		for (auto element : li)
 			m_array[count++] = element;
 	}
 
-	const long long Size() {
+	const long long size() {
 		return n;
 	}
 
-	bool Empty() const {
+	bool empty() const {
 		return !n;
 	}
 
-	void Fill(T value) {
+	void fill(T value) {
 		for (long long i = 0; i < n; ++i)
 			m_array[i] = value;
 	}
 
-	void Swap(Array& arr) {		// size equality assertion needed
+	void swap(Array& arr) {		// size equality assertion needed
 		for (long long i = 0; i < n; ++i)
 			swap(arr.m_array[i], this->m_array[i]);
 	}
@@ -45,41 +44,41 @@ public:
 		return m_array[index];
 	}
 
-	friend istream& operator>>(istream& in, Array& arr) {
+	friend std::istream& operator>>(std::istream& in, Array& arr) {
 		for (long long i = 0; i < n; ++i)
 			in >> arr.m_array[i];
 		return in;
 	}
 
-	friend ostream& operator<<(ostream& out, const Array& arr) {
+	friend std::ostream& operator<<(std::ostream& out, const Array& arr) {
 		for (long long i = 0; i < n; ++i)
 			out << arr.m_array[i] << ' ';
-		out << endl;
+		out << '\n';
 		return out;
 	}
 
 	friend bool operator==(const Array& arr1, const Array& arr2) { // size equality assertion needed
-		for (long long i = 0; i < arr1.Size(); ++i)
+		for (long long i = 0; i < arr1.size(); ++i)
 			if (arr1.m_array[i] != arr2.m_array[i])
 				return false;
 		return true;
 	}
 
 	friend bool operator!=(const Array& arr1, const Array& arr2) { // size equality assertion needed
-		for (long long i = 0; i < arr1.Size(); ++i)
+		for (long long i = 0; i < arr1.size(); ++i)
 			if (arr1.m_array[i] == arr2.m_array[i])
 				return false;
 		return true;
 	}
 
-	void Reverse() {
+	void reverse() {
 		for (long long i = 0; i < n / 2; ++i) {
 			if (m_array[i] != m_array[n - 1 - i])
 				swap(m_array[i], m_array[n - 1 - i]);
 		}
 	}
 
-	T Max() const {
+	T max() const {
 		if (n == 1)
 			return m_array[0];
 
@@ -91,7 +90,7 @@ public:
 		return max;
 	}
 
-	T Min() const {
+	T min() const {
 		if (n == 1)
 			return m_array[0];
 

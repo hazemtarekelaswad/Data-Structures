@@ -25,8 +25,8 @@ public:
 		return *this;
 	}
 
-	void Swap(Stack& stack) {
-		m_list.Swap(stack.m_list);
+	void swap(Stack& stack) {
+		m_list.swap(stack.m_list);
 	}
 
 	friend std::ostream& operator<<(std::ostream& out, const Stack& stack) {
@@ -34,23 +34,23 @@ public:
 		return out;
 	}
 
-	void Push(const T& value) {
-		m_list.PushBack(value);
+	void push(const T& value) {
+		m_list.push_back(value);
 	}
 
-	void Pop() {
-		m_list.PopBack();
+	void pop() {
+		m_list.pop_back();
 	}
 
-	T Top() {
-		return m_list[m_list.GetLength() - 1];
+	T top() {
+		return m_list[m_list.get_length() - 1];
 	}
 
-	size_t Size() const {
-		return m_list.GetLength();
+	size_t size() const {
+		return m_list.get_length();
 	}
 
-	bool IsEmpty() const {
-		return m_list.IsEmpty();
+	bool is_empty() const {
+		return m_list.is_empty();
 	}
 };
